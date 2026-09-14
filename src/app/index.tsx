@@ -1,10 +1,5 @@
-import { useAuth } from "@clerk/expo";
-import { Redirect } from "expo-router";
+import { Text } from "react-native";
 
 export default function Index() {
-  const { isLoaded, isSignedIn } = useAuth();
-
-  if (!isLoaded) return null;
-  if (isSignedIn) return <Redirect href="/(root)/(tabs)" />;
-  return <Redirect href="/sign-up" />;
+  return <Text>Welcome to the Weather App</Text>;
 }

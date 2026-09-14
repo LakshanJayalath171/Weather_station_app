@@ -1,11 +1,11 @@
 import { Text, View } from "react-native";
 
-const sign_up = () => {
+const _layout = () => {
   return (
     <View>
-      <Text>sign_up</Text>
+      <Text>_layout</Text>
     </View>
   );
 };
 
-export default sign_up;
+export default _layout;
