@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* liquid glass effect */
+
+@layer components {
+  .glass-bg {
+    @apply bg-white/15 border border-white/25 rounded-3xl;
+    shadow-color: #000000;
+    shadow-offset: 0px 10px;
+    shadow-opacity: 0.18;
+    shadow-radius: 30px;
+    elevation: 10;
+  }
+
+  .glass-card {
+    @apply bg-white/10 border border-white/20 rounded-2xl;
+    shadow-color: #000000;
+    shadow-offset: 0px 6px;
+    shadow-opacity: 0.12;
+    shadow-radius: 20px;
+    elevation: 6;
+  }
+}

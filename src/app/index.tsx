@@ -1,5 +1,5 @@
-import { Text } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  return <Text>Welcome to the Weather App</Text>;
+  return <Redirect href="/(tabs)" />;
 }
