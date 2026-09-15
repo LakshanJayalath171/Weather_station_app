@@ -23,3 +23,202 @@
     elevation: 6;
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* ========================================
+     🌌 WEATHER APP BACKGROUNDS
+     ======================================== */
+
+  .bg-weather {
+    @apply bg-[#08111F];
+  }
+
+  .bg-weather-secondary {
+    @apply bg-[#0D2138];
+  }
+
+  .bg-weather-atmosphere {
+    @apply bg-[#102D46];
+  }
+
+  /* ========================================
+     💎 BRAND COLORS
+     ======================================== */
+
+  .bg-sky {
+    @apply bg-[#5CC8FF];
+  }
+
+  .bg-cyan {
+    @apply bg-[#65E6E0];
+  }
+
+  .text-sky {
+    @apply text-[#5CC8FF];
+  }
+
+  .text-cyan {
+    @apply text-[#65E6E0];
+  }
+
+  /* ========================================
+     📝 TEXT COLORS
+     ======================================== */
+
+  .text-primary {
+    @apply text-[#F5FAFF];
+  }
+
+  .text-secondary {
+    @apply text-[#A9BDCF];
+  }
+
+  /* ========================================
+     ☁️ LIQUID GLASS
+     ======================================== */
+
+  .glass {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26];
+  }
+
+  .glass-card {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26] rounded-3xl;
+  }
+
+  .glass-small {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26] rounded-2xl;
+  }
+
+  .glass-pill {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26] rounded-full;
+  }
+
+  /* ========================================
+     🌧️ WEATHER COLORS
+     ======================================== */
+
+  .text-rain {
+    @apply text-[#4FA3FF];
+  }
+
+  .bg-rain {
+    @apply bg-[#4FA3FF];
+  }
+
+  .text-sunny {
+    @apply text-[#FFD166];
+  }
+
+  .bg-sunny {
+    @apply bg-[#FFD166];
+  }
+
+  /* ========================================
+     ⚠️ STATUS COLORS
+     ======================================== */
+
+  .text-warning {
+    @apply text-[#FFB547];
+  }
+
+  .bg-warning {
+    @apply bg-[#FFB547];
+  }
+
+  .text-error {
+    @apply text-[#FF6B6B];
+  }
+
+  .bg-error {
+    @apply bg-[#FF6B6B];
+  }
+
+  /* ========================================
+     🔘 BUTTONS
+     ======================================== */
+
+  .btn-primary {
+    @apply bg-[#5CC8FF] rounded-2xl px-6 py-4;
+  }
+
+  .btn-secondary {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26] rounded-2xl px-6 py-4;
+  }
+
+  .btn-glass {
+    @apply bg-[#FFFFFF14] border border-[#FFFFFF26] rounded-full;
+  }
+
+  /* ========================================
+     🧊 WEATHER CARDS
+     ======================================== */
+
+  .weather-card {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-3xl
+      p-5;
+  }
+
+  .weather-stat-card {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-2xl
+      p-4;
+  }
+
+  .forecast-card {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-2xl
+      p-4;
+  }
+
+  /* ========================================
+     🧭 BOTTOM TAB BAR
+     ======================================== */
+
+  .tab-bar {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-3xl
+      px-3
+      py-3;
+  }
+
+  .tab-active {
+    @apply bg-[#5CC8FF]
+      rounded-2xl
+      p-3;
+  }
+
+  .tab-inactive {
+    @apply bg-transparent
+      rounded-2xl
+      p-3;
+  }
+
+  /* ========================================
+     🔍 SEARCH
+     ======================================== */
+
+  .search-input {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-2xl
+      px-4
+      py-3
+      text-[#F5FAFF];
+  }
+
+  .search-result {
+    @apply bg-[#FFFFFF14]
+      border border-[#FFFFFF26]
+      rounded-2xl
+      p-4;
+  }
+}
