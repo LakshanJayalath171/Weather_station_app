@@ -102,19 +102,27 @@
      ======================================== */
 
   .text-rain {
-    @apply text-[#4FA3FF];
+    @apply text-[#38BDF8];
   }
 
   .bg-rain {
-    @apply bg-[#4FA3FF];
+    @apply bg-[#38BDF8];
+  }
+
+  .text-cloudy {
+    @apply text-[#94A3B8];
+  }
+
+  .bg-cloudy {
+    @apply bg-[#94A3B8];
   }
 
   .text-sunny {
-    @apply text-[#FFD166];
+    @apply text-[#F59E0B];
   }
 
   .bg-sunny {
-    @apply bg-[#FFD166];
+    @apply bg-[#F59E0B];
   }
 
   /* ========================================

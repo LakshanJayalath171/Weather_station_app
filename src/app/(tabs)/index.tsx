@@ -11,6 +11,7 @@ import {
   Wind,
 } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
+import LocationCard from "../../../components/LocationCard";
 import Main_weather from "../../../components/Main_weather";
 import Small_card from "../../../components/Small_card";
 const index = () => {
@@ -121,7 +122,39 @@ const index = () => {
       {/* saved locations section */}
 
       <View>
-        <Text className="text-white text-2xl font-bold">Saved Location</Text>
+        <View className="flex flex-row items-center justify-between mt-3">
+          <Text className="text-white text-2xl font-bold">Saved Locations</Text>
+          <Text className="text-purple-500 text-sm font-light">Manage</Text>
+        </View>
+
+        <View>
+          <LocationCard
+            location="Colombo"
+            temperature={30}
+            low={25}
+            high={35}
+            humidity={20}
+            icon="sunny"
+          />
+
+          <LocationCard
+            location="Kandy"
+            temperature={28}
+            low={22}
+            high={32}
+            humidity={30}
+            icon="cloudy"
+          />
+
+          <LocationCard
+            location="Galle"
+            temperature={26}
+            low={20}
+            high={30}
+            humidity={40}
+            icon="rainy"
+          />
+        </View>
       </View>
     </ScrollView>
   );
