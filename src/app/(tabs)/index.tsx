@@ -34,7 +34,9 @@ const index = () => {
       </View>
 
       {/* main weather card section */}
-      <Main_weather />
+      <View className="mt-6">
+        <Main_weather />
+      </View>
 
       {/* Additional weather content*/}
 

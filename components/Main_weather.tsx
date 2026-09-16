@@ -2,7 +2,7 @@ import { Image, Text, View } from "react-native";
 
 const Main_weather = () => {
   return (
-    <View className="flex items-center justify-center mt-10 glass-bg pb-10 ">
+    <View className="flex items-center justify-center glass-bg pb-10 ">
       <View className="flex items-center justify-center pt-10">
         <Image
           source={require("../assets/State images/cloudy_overcast.png")}
