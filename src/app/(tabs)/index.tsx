@@ -2,12 +2,9 @@ import {
   ArrowRight,
   Bubbles,
   CloudHail,
-  CloudRainWind,
-  CloudSun,
   EllipsisVertical,
   Grid2x2,
   Navigation,
-  Sun,
   Wind,
 } from "lucide-react-native";
 import { ScrollView, Text, View } from "react-native";
@@ -96,26 +93,10 @@ const index = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ gap: 5, paddingVertical: 10 }}
         >
-          <Small_card
-            title="Now"
-            icon={<Sun color="orange" size={30} />}
-            temperature="30 °C"
-          />
-          <Small_card
-            title="Morning"
-            icon={<CloudSun color="blue" size={30} />}
-            temperature="25 °C"
-          />
-          <Small_card
-            title="Afternoon"
-            icon={<CloudRainWind color="green" size={30} />}
-            temperature="28 °C"
-          />
-          <Small_card
-            title="Evening"
-            icon={<Sun color="orange" size={30} />}
-            temperature="22 °C"
-          />
+          <Small_card title="Now" icon={"sunny"} temperature="30 °C" />
+          <Small_card title="Morning" icon={"cloudy"} temperature="25 °C" />
+          <Small_card title="Afternoon" icon={"rainy"} temperature="28 °C" />
+          <Small_card title="Evening" icon={"sunny"} temperature="22 °C" />
         </ScrollView>
       </View>
 
