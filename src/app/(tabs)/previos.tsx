@@ -1,4 +1,5 @@
 import {
+  CalendarDays,
   ChartSpline,
   Clock,
   Droplet,
@@ -10,6 +11,7 @@ import {
   WindArrowDown,
 } from "lucide-react-native";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import Days_card from "../../../components/Days_card";
 import ProgressBar from "../../../components/Progress";
 import Small_card from "../../../components/Small_card";
 
@@ -157,6 +159,33 @@ const previos = () => {
               <Text className="text-white text-sm">Clear horizon</Text>
             </View>
           </View>
+        </View>
+      </View>
+
+      {/* 7 days report*/}
+
+      <View className="mt-3">
+        <View className="flex flex-row items-center justify-between">
+          <View className="flex flex-row items-center gap-2">
+            <CalendarDays color={"white"} size={15} />
+            <Text className="text-white/80 text-lg font-semibold">
+              7-Day Outlook
+            </Text>
+          </View>
+          <Text className="text-purple-500">Next Days</Text>
+        </View>
+
+        <View className="mb-3">
+          <Days_card day="Monday" weather="sunny" max={36} min={25} />
+          <Days_card
+            day="Tuesday"
+            weather="Heavy rain/Thunderstorms"
+            max={36}
+            min={25}
+          />
+          <Days_card day="Wednesday" weather="Hurricane" max={36} min={25} />
+          <Days_card day="Thursday" weather="Cyclone" max={25} min={19} />
+          <Days_card day="Friday" weather="Snow flakes" max={0} min={-10} />
         </View>
       </View>
     </ScrollView>
