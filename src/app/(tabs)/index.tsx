@@ -7,9 +7,10 @@ import {
   Navigation,
   Wind,
 } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 import LocationCard from "../../../components/LocationCard";
 import Main_weather from "../../../components/Main_weather";
+import ProgressBar from "../../../components/Progress";
 import Small_card from "../../../components/Small_card";
 const index = () => {
   return (
@@ -100,6 +101,92 @@ const index = () => {
           <Small_card title="Afternoon" icon={"rainy"} temperature="28 °C" />
           <Small_card title="Evening" icon={"sunny"} temperature="22 °C" />
         </ScrollView>
+      </View>
+
+      {/* Additional details */}
+
+      <View className="mt-3">
+        <View className="flex flex-row items-center justify-between">
+          <Text className="text-white text-2xl font-semibold">
+            Atmospheric Conditions
+          </Text>
+        </View>
+
+        {/* 1st div */}
+        <View className="flex flex-row gap-2 mt-2">
+          {/* UV index */}
+          <View className="flex-1 glass-bg rounded-lg flex items-center justify-center py-2">
+            <View>
+              <Image
+                source={require("@/assets/images/card icons/Uv index.png")}
+                className="w-24 h-24 mt-3 ml-3"
+              />
+            </View>
+            <View className="flex items-center justify-center">
+              <Text className="text-white font-bold">UV Index</Text>
+              <Text className="text-white text-2xl font-bold">3 Low</Text>
+              <Text className="text-white text-sm font-light text-center">
+                Low risk of harm from UV rays
+              </Text>
+            </View>
+          </View>
+
+          {/* Precipitation */}
+          <View className="flex-1 glass-bg rounded-lg flex items-center justify-center py-2">
+            <View>
+              <Image
+                source={require("@/assets/images/card icons/visibility.png")}
+                className="w-24 h-24 mt-3 ml-3"
+              />
+            </View>
+            <View className="flex items-center justify-center text-center">
+              <Text className="text-white font-bold">Visibility</Text>
+              <Text className="text-white text-2xl font-bold">10 km</Text>
+              <ProgressBar progress={30} />
+              <Text className="text-white text-sm font-light text-center">
+                Clear horizon
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* 2nd div */}
+        <View className="flex flex-row gap-2 mt-2">
+          {/* UV index */}
+          <View className="flex-1 glass-bg rounded-lg flex items-center justify-center py-2">
+            <View>
+              <Image
+                source={require("@/assets/images/card icons/presure.png")}
+                className="w-24 h-24 mt-3 ml-3"
+              />
+            </View>
+            <View className="flex items-center justify-center">
+              <Text className="text-white font-bold">Pressure</Text>
+              <Text className="text-white text-2xl font-bold">1014 hPa</Text>
+              <Text className="text-white text-sm font-light text-center">
+                Stable hill terrain
+              </Text>
+            </View>
+          </View>
+
+          {/* Precipitation */}
+          <View className="flex-1 glass-bg rounded-lg flex items-center justify-center py-2">
+            <View>
+              <Image
+                source={require("@/assets/images/card icons/Air quality.png")}
+                className="w-24 h-24 mt-3 ml-3"
+              />
+            </View>
+            <View className="flex items-center justify-center text-center">
+              <Text className="text-white font-bold">Air Quality</Text>
+              <Text className="text-white text-2xl font-bold">Good</Text>
+              <ProgressBar progress={30} />
+              <Text className="text-white text-sm font-light text-center">
+                101-150 Unhealthy for sensitive groups
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* saved locations section */}
