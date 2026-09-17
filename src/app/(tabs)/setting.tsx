@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import Weather_loading from "../../../components/Weather_loading";
 
 const setting = () => {
   return (
     <View>
-      <Text>setting</Text>
+      <Weather_loading />
     </View>
   );
 };
