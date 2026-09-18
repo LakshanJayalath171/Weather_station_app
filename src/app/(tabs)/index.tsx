@@ -1,3 +1,4 @@
+import * as Location from "expo-location";
 import {
   ArrowRight,
   Bubbles,
@@ -7,12 +8,66 @@ import {
   Navigation,
   Wind,
 } from "lucide-react-native";
-import { Image, ScrollView, Text, View } from "react-native";
+import { useState } from "react";
+import { Button, Image, ScrollView, Text, View } from "react-native";
 import LocationCard from "../../../components/LocationCard";
 import Main_weather from "../../../components/Main_weather";
 import ProgressBar from "../../../components/Progress";
 import Small_card from "../../../components/Small_card";
+import Weather_loading from "../../../components/Weather_loading";
+import { useLocation } from "../../../hooks/useLocation";
+import { useWeather } from "../../../hooks/useWeather";
 const index = () => {
+  // get device location
+  const [placeName, setPlaceName] = useState<any | null>(null);
+  const { location, errorMsg, loading, getLocation } = useLocation();
+  const {
+    weatherData,
+    errorMsg: error,
+    loading: weatherLoading,
+    fetchWeatherData,
+  } = useWeather(location?.latitude || 0, location?.longitude || 0);
+
+  if (loading || weatherLoading) {
+    return <Weather_loading />;
+  }
+
+  if (errorMsg || error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>{errorMsg || error}</Text>
+        <Button
+          title="Retry"
+          onPress={() => {
+            getLocation();
+            fetchWeatherData();
+          }}
+        />
+      </View>
+    );
+  }
+
+  const getPlaceName = async () => {
+    if (location) {
+      try {
+        const place = await Location.reverseGeocodeAsync({
+          latitude: location.latitude,
+          longitude: location.longitude,
+        });
+
+        if (place && place.length > 0) {
+          setPlaceName(place[0] || "Unknown Location");
+        }
+      } catch (error) {
+        console.log("Error getting place name:", error);
+      }
+    }
+  };
+
+  getPlaceName();
+
+  console.log(placeName);
+
   return (
     <ScrollView className="px-3">
       {/* Header and icon */}
