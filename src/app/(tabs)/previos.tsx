@@ -154,7 +154,9 @@ const previos = () => {
                 {weatherData?.current?.relative_humidity_2m}{" "}
                 {weatherData?.current_units?.relative_humidity_2m}
               </Text>
-              <ProgressBar progress={28} />
+              <ProgressBar
+                progress={weatherData?.current?.relative_humidity_2m}
+              />
               <Text className="text-blue-500/50 text-sm mt-1">
                 Ideal moisture index
               </Text>
@@ -257,16 +259,15 @@ const previos = () => {
         </View>
 
         <View className="mb-3">
-          <Days_card day="Monday" weather="sunny" max={36} min={25} />
-          <Days_card
-            day="Tuesday"
-            weather="Heavy rain/Thunderstorms"
-            max={36}
-            min={25}
-          />
-          <Days_card day="Wednesday" weather="Hurricane" max={36} min={25} />
-          <Days_card day="Thursday" weather="Cyclone" max={25} min={19} />
-          <Days_card day="Friday" weather="Snow flakes" max={0} min={-10} />
+          {weatherData?.daily?.time?.map((day: string, index: number) => (
+            <Days_card
+              key={index}
+              day={day}
+              weather_code={weatherData?.daily?.weathercode?.[index]}
+              max={weatherData?.daily?.temperature_2m_max?.[index]}
+              min={weatherData?.daily?.temperature_2m_min?.[index]}
+            />
+          ))}
         </View>
       </View>
     </ScrollView>

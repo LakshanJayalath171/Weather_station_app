@@ -6,7 +6,12 @@ interface SmallCardProps {
   unit: string;
   weather_code: number;
 }
-const Small_card = ({ title, temperature, unit, weather_code }) => {
+const Small_card = ({
+  title,
+  temperature,
+  unit,
+  weather_code,
+}: SmallCardProps) => {
   const weather = (weather_code: number) => {
     return weatherStates.find((state) => state.codes.includes(weather_code));
   };
