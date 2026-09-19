@@ -182,6 +182,7 @@ const index = () => {
                 icon={"sunny"}
                 temperature={weatherData?.hourly?.temperature_2m?.[index]}
                 unit={weatherData?.hourly_units?.temperature_2m}
+                weather_code={weatherData?.hourly?.weathercode?.[index]}
               />
             ))}
         </ScrollView>
