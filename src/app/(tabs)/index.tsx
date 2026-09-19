@@ -17,6 +17,7 @@ import Small_card from "../../../components/Small_card";
 import Weather_loading from "../../../components/Weather_loading";
 import { useLocation } from "../../../hooks/useLocation";
 import { useWeather } from "../../../hooks/useWeather";
+
 const index = () => {
   // get device location
   const [placeName, setPlaceName] = useState<any | null>(null);
@@ -209,7 +210,9 @@ const index = () => {
             </View>
             <View className="flex items-center justify-center">
               <Text className="text-white font-bold">UV Index</Text>
-              <Text className="text-white text-2xl font-bold">3 Low</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.uv_index}
+              </Text>
               <Text className="text-white text-sm font-light text-center">
                 Low risk of harm from UV rays
               </Text>
@@ -226,7 +229,9 @@ const index = () => {
             </View>
             <View className="flex items-center justify-center text-center">
               <Text className="text-white font-bold">Visibility</Text>
-              <Text className="text-white text-2xl font-bold">10 km</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.visibility / 1000} Km
+              </Text>
               <ProgressBar progress={30} />
               <Text className="text-white text-sm font-light text-center">
                 Clear horizon
@@ -247,7 +252,10 @@ const index = () => {
             </View>
             <View className="flex items-center justify-center">
               <Text className="text-white font-bold">Pressure</Text>
-              <Text className="text-white text-2xl font-bold">1014 hPa</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.surface_pressure}{" "}
+                {weatherData?.current_units?.surface_pressure}
+              </Text>
               <Text className="text-white text-sm font-light text-center">
                 Stable hill terrain
               </Text>

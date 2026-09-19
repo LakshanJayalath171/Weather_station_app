@@ -10,7 +10,7 @@ export async function getWeatherData(latitude: number, longitude: number) {
       "temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode",
     timezone: "auto",
     current:
-      "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m",
+      "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,uv_index,visibility,surface_pressure",
     forecast_days: "7",
   });
 
