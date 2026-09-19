@@ -50,8 +50,6 @@ const index = () => {
     getPlaceName();
   }, [location?.latitude, location?.longitude]);
 
-  console.log(weatherData);
-
   if (loading || weatherLoading) {
     return <Weather_loading />;
   }

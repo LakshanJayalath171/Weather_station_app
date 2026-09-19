@@ -10,12 +10,67 @@ import {
   Wind,
   WindArrowDown,
 } from "lucide-react-native";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
+import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Days_card from "../../../components/Days_card";
 import ProgressBar from "../../../components/Progress";
 import Small_card from "../../../components/Small_card";
+import Weather_loading from "../../../components/Weather_loading";
+import { useLocation } from "../../../hooks/useLocation";
+import { useWeather } from "../../../hooks/useWeather";
 
 const previos = () => {
+  const [placeName, setPlaceName] = useState<any | null>(null);
+  const { location, errorMsg, loading, getLocation } = useLocation();
+  const {
+    weatherData,
+    errorMsg: error,
+    loading: weatherLoading,
+    fetchWeatherData,
+  } = useWeather(location?.latitude || 0, location?.longitude || 0);
+
+  useEffect(() => {
+    const getPlaceName = async () => {
+      if (location) {
+        try {
+          const place = await Location.reverseGeocodeAsync({
+            latitude: location.latitude,
+            longitude: location.longitude,
+          });
+
+          if (place && place.length > 0) {
+            setPlaceName(place[0] || "Unknown Location");
+          }
+        } catch (error) {
+          console.log("Error getting place name:", error);
+        }
+      }
+    };
+
+    getPlaceName();
+  }, [location?.latitude, location?.longitude]);
+
+  if (loading || weatherLoading) {
+    return <Weather_loading />;
+  }
+
+  if (errorMsg || error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>{errorMsg || error}</Text>
+        <Button
+          title="Retry"
+          onPress={() => {
+            getLocation();
+            fetchWeatherData();
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <ScrollView className="px-4">
       <View className="flex flex-row items-center justify-start glass-bg px-3 py-2 gap-4">
@@ -32,8 +87,12 @@ const previos = () => {
             </View>
           </View>
 
-          <Text className="text-lg text-white font-bold">
-            Western Province, Sri Lanka
+          <Text className="text-white text-2xl font-semibold">
+            {placeName?.city || "Unknown Location"}
+          </Text>
+
+          <Text className="text-xs text-white/80 font-light">
+            {placeName?.region}, {placeName?.country}
           </Text>
         </View>
       </View>
@@ -55,11 +114,20 @@ const previos = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ gap: 3, paddingVertical: 8 }}
         >
-          <Small_card icon={"sunny"} title="12:00 PM" temperature={"28°C"} />
-          <Small_card icon={"sunny"} title="1:00 PM" temperature={"29°C"} />
-          <Small_card icon={"rainy"} title="2:00 PM" temperature={"30°C"} />
-          <Small_card icon={"cloudy"} title="3:00 PM" temperature={"31°C"} />
-          <Small_card icon={"cloudy"} title="4:00 PM" temperature={"32°C"} />
+          {weatherData?.hourly?.time
+            ?.slice(0, 24)
+            .map((time: string, index: number) => (
+              <Small_card
+                key={index}
+                title={new Date(time).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                temperature={weatherData?.hourly?.temperature_2m?.[index]}
+                weather_code={weatherData?.hourly?.weathercode?.[index]}
+                unit={weatherData?.hourly_units?.temperature_2m}
+              />
+            ))}
         </ScrollView>
       </View>
 
@@ -82,7 +150,10 @@ const previos = () => {
             </View>
 
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">28%</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.relative_humidity_2m}{" "}
+                {weatherData?.current_units?.relative_humidity_2m}
+              </Text>
               <ProgressBar progress={28} />
               <Text className="text-blue-500/50 text-sm mt-1">
                 Ideal moisture index
@@ -96,7 +167,10 @@ const previos = () => {
               <Wind color={"#94A3B8"} size={20} />
             </View>
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">15 km/h</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.wind_speed_10m}{" "}
+                {weatherData?.current_units?.wind_speed_10m}
+              </Text>
               <Text className="text-white text-sm">Breeze from NE</Text>
             </View>
           </View>
@@ -113,10 +187,9 @@ const previos = () => {
             </View>
 
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">20%</Text>
-              <ProgressBar progress={20} />
-              <Text className="text-blue-500/50 text-sm mt-1">
-                Mist around 4 PM
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.precipitation}{" "}
+                {weatherData?.current_units?.precipitation}
               </Text>
             </View>
           </View>
@@ -127,7 +200,10 @@ const previos = () => {
               <Sun color={"#F59E0B"} size={20} />
             </View>
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">3 Low</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.uv_index}{" "}
+                {weatherData?.current_units?.uv_index}
+              </Text>
               <Text className="text-white text-sm">Breeze from NE</Text>
             </View>
           </View>
@@ -142,7 +218,10 @@ const previos = () => {
             </View>
 
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">1014 hPa</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.surface_pressure}{" "}
+                {weatherData?.current_units?.surface_pressure}
+              </Text>
               <Text className="text-white/50 text-sm mt-1">
                 Stable hill terrain
               </Text>
@@ -155,7 +234,9 @@ const previos = () => {
               <Eye color={"#38BDF8"} size={20} />
             </View>
             <View className="mt-3">
-              <Text className="text-white text-2xl font-bold">10 km</Text>
+              <Text className="text-white text-2xl font-bold">
+                {weatherData?.current?.visibility / 1000} Km
+              </Text>
               <Text className="text-white text-sm">Clear horizon</Text>
             </View>
           </View>
