@@ -8,7 +8,7 @@ import {
   Navigation,
   Wind,
 } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Image, ScrollView, Text, View } from "react-native";
 import LocationCard from "../../../components/LocationCard";
 import Main_weather from "../../../components/Main_weather";
@@ -27,6 +27,29 @@ const index = () => {
     loading: weatherLoading,
     fetchWeatherData,
   } = useWeather(location?.latitude || 0, location?.longitude || 0);
+
+  useEffect(() => {
+    const getPlaceName = async () => {
+      if (location) {
+        try {
+          const place = await Location.reverseGeocodeAsync({
+            latitude: location.latitude,
+            longitude: location.longitude,
+          });
+
+          if (place && place.length > 0) {
+            setPlaceName(place[0] || "Unknown Location");
+          }
+        } catch (error) {
+          console.log("Error getting place name:", error);
+        }
+      }
+    };
+
+    getPlaceName();
+  }, [location?.latitude, location?.longitude]);
+
+  console.log(weatherData);
 
   if (loading || weatherLoading) {
     return <Weather_loading />;
@@ -47,27 +70,6 @@ const index = () => {
     );
   }
 
-  const getPlaceName = async () => {
-    if (location) {
-      try {
-        const place = await Location.reverseGeocodeAsync({
-          latitude: location.latitude,
-          longitude: location.longitude,
-        });
-
-        if (place && place.length > 0) {
-          setPlaceName(place[0] || "Unknown Location");
-        }
-      } catch (error) {
-        console.log("Error getting place name:", error);
-      }
-    }
-  };
-
-  getPlaceName();
-
-  console.log(placeName);
-
   return (
     <ScrollView className="px-3">
       {/* Header and icon */}
@@ -78,10 +80,14 @@ const index = () => {
         <View>
           <View className="flex-row gap-3 items-center justify-center">
             <Navigation color="white" />
-            <Text className="text-2xl font-bold text-white/90">New York</Text>
+            <Text className="text-2xl font-bold text-white/90">
+              {placeName?.city}
+            </Text>
           </View>
 
-          <Text className="text-white/50">Monday, October 1st</Text>
+          <Text className="text-white/50 text-center">
+            {placeName?.subregion} : {placeName?.country}
+          </Text>
         </View>
 
         <View className="p-3 rounded-full glass-bg ">
@@ -91,7 +97,11 @@ const index = () => {
 
       {/* main weather card section */}
       <View className="mt-6">
-        <Main_weather />
+        <Main_weather
+          temprature={weatherData?.current?.apparent_temperature}
+          weather_code={weatherData?.current?.weather_code}
+          unit={weatherData?.current_units?.apparent_temperature}
+        />
       </View>
 
       {/* Additional weather content*/}
@@ -101,7 +111,10 @@ const index = () => {
           <View className="flex items-center justify-center">
             <Bubbles color="white" />
             <View className="text-center">
-              <Text className="font-bold text-white/90 text-lg">20%</Text>
+              <Text className="font-bold text-white/90 text-lg">
+                {weatherData?.current?.relative_humidity_2m}{" "}
+                {weatherData?.current_units?.relative_humidity_2m}
+              </Text>
               <Text className="text-white/50 text-sm font-light">Humidity</Text>
             </View>
           </View>
@@ -111,7 +124,10 @@ const index = () => {
           <View className="flex items-center justify-center">
             <CloudHail color="white" />
             <View className="text-center flex items-center justify-center">
-              <Text className="font-bold text-white/90 text-lg">0 mm</Text>
+              <Text className="font-bold text-white/90 text-lg">
+                {weatherData?.current?.precipitation}{" "}
+                {weatherData?.current_units?.precipitation}
+              </Text>
               <Text className="text-white/50 text-sm font-light">Rainfall</Text>
             </View>
           </View>
@@ -121,7 +137,10 @@ const index = () => {
           <View className="flex items-center justify-center">
             <Wind color="white" />
             <View className="text-center flex items-center justify-center">
-              <Text className="font-bold text-white/90 text-lg">15 km/h</Text>
+              <Text className="font-bold text-white/90 text-lg">
+                {weatherData?.current?.wind_speed_10m}{" "}
+                {weatherData?.current_units?.wind_speed_10m}
+              </Text>
               <Text className="text-white/50 text-sm font-light">
                 Wind speed
               </Text>
@@ -151,10 +170,20 @@ const index = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ gap: 5, paddingVertical: 10 }}
         >
-          <Small_card title="Now" icon={"sunny"} temperature="30 °C" />
-          <Small_card title="Morning" icon={"cloudy"} temperature="25 °C" />
-          <Small_card title="Afternoon" icon={"rainy"} temperature="28 °C" />
-          <Small_card title="Evening" icon={"sunny"} temperature="22 °C" />
+          {weatherData?.hourly?.time
+            ?.slice(0, 12)
+            .map((time: string, index: number) => (
+              <Small_card
+                key={index}
+                title={new Date(time).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+                icon={"sunny"}
+                temperature={weatherData?.hourly?.temperature_2m?.[index]}
+                unit={weatherData?.hourly_units?.temperature_2m}
+              />
+            ))}
         </ScrollView>
       </View>
 

@@ -30,7 +30,7 @@ export function useWeather(latitude: number, longitude: number) {
 
   useEffect(() => {
     fetchWeatherData();
-  }, [latitude, longitude]);
+  }, []);
 
   return { weatherData, errorMsg, loading, fetchWeatherData };
 }

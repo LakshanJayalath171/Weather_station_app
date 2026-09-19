@@ -11,7 +11,7 @@ import mist from "./State images/mist.png";
 import mostly_cloudy from "./State images/mostly_cloudy.png";
 import partly_cloudy from "./State images/partly_cloudy.png";
 import rain from "./State images/rain.png";
-import rain_showers from "./State images/rain_showers.png";
+import rain_showers from "./State images/rain_shower.png";
 import sandstorm from "./State images/sandstorm.png";
 import sleet_ice from "./State images/sleet_ice.png";
 import snow from "./State images/snow.png";
