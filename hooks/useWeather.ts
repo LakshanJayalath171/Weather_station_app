@@ -7,7 +7,7 @@ export function useWeather(latitude: number, longitude: number) {
   const [loading, setLoading] = useState<boolean>(true);
 
   async function fetchWeatherData() {
-    if (latitude === null || longitude === null) {
+    if (latitude === 0 && longitude === 0) {
       setErrorMsg("Invalid latitude or longitude");
       setLoading(false);
       return;
@@ -30,7 +30,7 @@ export function useWeather(latitude: number, longitude: number) {
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  }, [latitude, longitude]);
 
   return { weatherData, errorMsg, loading, fetchWeatherData };
 }

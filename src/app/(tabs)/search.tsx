@@ -15,24 +15,36 @@ import MapScreen from "../../../components/MapScreen";
 import Weather_loading from "../../../components/Weather_loading";
 import { useLocation } from "../../../hooks/useLocation";
 import { useWeather } from "../../../hooks/useWeather";
-import { searchLocation } from "../../../services/weatherApi";
+import {
+  LocationSearchResult,
+  searchLocation,
+} from "../../../services/weatherApi";
 
 const search = () => {
-  const [placeName, setPlaceName] = React.useState<string | null>(null);
+  const [placeName, setPlaceName] =
+    React.useState<Location.LocationGeocodedAddress | null>(null);
+  const [selectedLocation, setSelectedLocation] =
+    React.useState<LocationSearchResult | null>(null);
   const { location, errorMsg, loading, getLocation } = useLocation();
 
   // searching status and suggesstions
 
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [suggestions, setSuggestions] = React.useState([]);
+  const [suggestions, setSuggestions] = React.useState<LocationSearchResult[]>(
+    [],
+  );
   const [loadingSearch, setLoadingSearch] = React.useState(false);
+
+  const weatherLatitude = selectedLocation?.latitude ?? location?.latitude ?? 0;
+  const weatherLongitude =
+    selectedLocation?.longitude ?? location?.longitude ?? 0;
 
   const {
     weatherData,
     errorMsg: error,
     loading: weatherLoading,
     fetchWeatherData,
-  } = useWeather(location?.latitude || 0, location?.longitude || 0);
+  } = useWeather(weatherLatitude, weatherLongitude);
 
   useEffect(() => {
     const getPlaceName = async () => {
@@ -44,7 +56,7 @@ const search = () => {
           });
 
           if (place && place.length > 0) {
-            setPlaceName(place[0] || "Unknown Location");
+            setPlaceName(place[0]);
           }
         } catch (error) {
           console.log("Error getting place name:", error);
@@ -67,7 +79,6 @@ const search = () => {
       setLoadingSearch(true);
       const result = await searchLocation(query);
       setSuggestions(result);
-      console.log("Search results:", result);
     } catch (error) {
       console.log("Error searching location:", error);
       setSuggestions([]);
@@ -76,9 +87,10 @@ const search = () => {
     }
   };
 
-  const handleLocationSelect = async (location) => {
-    setSearchQuery(location.name);
+  const handleLocationSelect = (selected: LocationSearchResult) => {
+    setSearchQuery(selected.name);
     setSuggestions([]);
+    setSelectedLocation(selected);
   };
 
   if (loading || weatherLoading) {
@@ -122,17 +134,18 @@ const search = () => {
       )}
       {/* weather details */}
       <Location_weather
-        city={placeName?.city || "Unknown Location"}
+        city={selectedLocation?.name || placeName?.city || "Unknown Location"}
         region={placeName?.region || "Unknown Region"}
-        weather_code={weatherData?.current?.weather_code}
-        temp={weatherData?.current?.apparent_temperature}
-        temp_unit={weatherData?.current_units?.apparent_temperature}
-        wind_Speed={weatherData?.current?.wind_speed_10m}
-        wind_speed_unit={weatherData?.current_units?.wind_speed_10m}
-        humidity={weatherData?.current?.relative_humidity_2m}
-        humidity_unit={weatherData?.current_units?.relative_humidity_2m}
-        precipitaion={weatherData?.current?.precipitation}
-        precipitaion_unit={weatherData?.current_units?.precipitation}
+        time="en-US"
+        weather_code={weatherData?.current?.weather_code ?? 0}
+        temp={weatherData?.current?.apparent_temperature ?? 0}
+        temp_unit={weatherData?.current_units?.apparent_temperature ?? ""}
+        wind_Speed={weatherData?.current?.wind_speed_10m ?? 0}
+        wind_speed_unit={weatherData?.current_units?.wind_speed_10m ?? ""}
+        humidity={weatherData?.current?.relative_humidity_2m ?? 0}
+        humidity_unit={weatherData?.current_units?.relative_humidity_2m ?? ""}
+        precipitaion={weatherData?.current?.precipitation ?? 0}
+        precipitaion_unit={weatherData?.current_units?.precipitation ?? ""}
       />
 
       {/* saved location */}

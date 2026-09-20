@@ -1,7 +1,18 @@
 const BASE_URL = "https://api.open-meteo.com/v1/forecast";
 const GEO_BASE_URL = "https://geocoding-api.open-meteo.com/v1/search";
 
-export const searchLocation = async (query) => {
+export interface LocationSearchResult {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  admin1?: string;
+}
+
+export const searchLocation = async (
+  query: string,
+): Promise<LocationSearchResult[]> => {
   if (!query.trim()) {
     return [];
   }
@@ -10,7 +21,9 @@ export const searchLocation = async (query) => {
   if (!response.ok) {
     throw new Error("Failed to fetch location data");
   } else {
-    const data = await response.json();
+    const data = (await response.json()) as {
+      results?: LocationSearchResult[];
+    };
     return data.results || [];
   }
 };
