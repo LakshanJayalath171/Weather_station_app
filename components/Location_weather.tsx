@@ -1,13 +1,46 @@
 import {
-    Bubbles,
-    ChevronRight,
-    Droplets,
-    LocateFixed,
-    Wind,
+  Bubbles,
+  ChevronRight,
+  Droplets,
+  LocateFixed,
+  Wind,
 } from "lucide-react-native";
 import { Image, Text, View } from "react-native";
+import { weatherStates } from "../assets";
 
-const Location_weather = () => {
+interface LocationWeatherProps {
+  city: string;
+  region: string;
+  time: string;
+  weather_code: number;
+  temp: number;
+  temp_unit: string;
+  wind_Speed: number;
+  wind_speed_unit: string;
+  humidity: number;
+  precipitaion: number;
+  humidity_unit: string;
+  precipitaion_unit: string;
+}
+
+const Location_weather = ({
+  city,
+  region,
+  time,
+  weather_code,
+  temp,
+  temp_unit,
+  wind_Speed,
+  wind_speed_unit,
+  humidity,
+  humidity_unit,
+  precipitaion,
+  precipitaion_unit,
+}: LocationWeatherProps) => {
+  const weather = (weather_code: number) => {
+    return weatherStates.find((state) => state.codes.includes(weather_code));
+  };
+
   return (
     <View className="glass-bg mt-2 pb-4">
       {/* location details */}
@@ -26,10 +59,11 @@ const Location_weather = () => {
               </View>
             </View>
             <Text className="text-lg text-white ">
-              Colombo, Western Province
+              {city}, {region}
             </Text>
             <Text className="text-xs text-white/40">
-              Thursday • 11:45 AM • Overcast
+              {new Date().toLocaleDateString(time)} •{" "}
+              {weather(weather_code)?.name}
             </Text>
           </View>
 
@@ -44,12 +78,12 @@ const Location_weather = () => {
 
       <View className="flex items-center justify-center">
         <View>
-          <Image source={require("../assets/State images/hurricane.png")} />
+          <Image source={weather(weather_code)?.image} />
         </View>
 
         <View className="flex items-center justify-center gap-1 mt-2">
           <Text className="text-white font-bold text-6xl">
-            28 <Text className="text-white/40 text-2xl">°C</Text>
+            {temp} <Text className="text-white/40 text-2xl">{temp_unit}</Text>
           </Text>
           <Text className="text-white/90 text-lg">
             Feels like 27° • High 28° / Low 21°
@@ -64,21 +98,27 @@ const Location_weather = () => {
         <View className="flex flex-row items-center gap-2 mt-3 ">
           <View className="flex  items-center">
             <Wind color="#94A3B8" size={30} />
-            <Text className="text-white/90 text-2xl font-bold">15 km/h</Text>
+            <Text className="text-white/90 text-2xl font-bold">
+              {wind_Speed} {wind_speed_unit}
+            </Text>
             <Text className="text-white/90 text-xs">Wind Speed</Text>
           </View>
         </View>
         <View>
           <View className="flex  items-center">
             <Bubbles color="#94A3B8" size={30} />
-            <Text className="text-white/90 text-2xl font-bold">78%</Text>
+            <Text className="text-white/90 text-2xl font-bold">
+              {humidity} {humidity_unit}
+            </Text>
             <Text className="text-white/90 text-xs">Humidity</Text>
           </View>
         </View>
         <View>
           <View className="flex  items-center">
             <Droplets color="#94A3B8" size={30} />
-            <Text className="text-white/90 text-2xl font-bold">0.2 mm</Text>
+            <Text className="text-white/90 text-2xl font-bold">
+              {precipitaion} {precipitaion_unit}
+            </Text>
             <Text className="text-white/90 text-xs">Precipitation</Text>
           </View>
         </View>

@@ -23,7 +23,7 @@ const Days_card = ({ day, weather_code, max, min }: DaysCardProps) => {
       <View className="flex glass-bg px-3 py-2">
         {/* icon */}
         <View className="flex flex-row items-center justify-start ">
-          <View className="flex-1 w-16 h-16 items-center justify-center">
+          <View className="flex-1 w-16 h-16 items-center justify-center1">
             <Image
               source={weather(weather_code)?.image}
               className="w-full h-full"

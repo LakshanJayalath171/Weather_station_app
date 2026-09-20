@@ -1,10 +1,49 @@
+import * as Location from "expo-location";
 import { Search, SlidersHorizontal } from "lucide-react-native";
+import React, { useEffect } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
 import Location_weather from "../../../components/Location_weather";
 import LocationCard from "../../../components/LocationCard";
 import MapScreen from "../../../components/MapScreen";
+import Weather_loading from "../../../components/Weather_loading";
+import { useLocation } from "../../../hooks/useLocation";
+import { useWeather } from "../../../hooks/useWeather";
 
 const search = () => {
+  const [placeName, setPlaceName] = React.useState<string | null>(null);
+  const { location, errorMsg, loading, getLocation } = useLocation();
+
+  const {
+    weatherData,
+    errorMsg: error,
+    loading: weatherLoading,
+    fetchWeatherData,
+  } = useWeather(location?.latitude || 0, location?.longitude || 0);
+
+  useEffect(() => {
+    const getPlaceName = async () => {
+      if (location) {
+        try {
+          const place = await Location.reverseGeocodeAsync({
+            latitude: location.latitude,
+            longitude: location.longitude,
+          });
+
+          if (place && place.length > 0) {
+            setPlaceName(place[0] || "Unknown Location");
+          }
+        } catch (error) {
+          console.log("Error getting place name:", error);
+        }
+      }
+    };
+
+    getPlaceName();
+  }, [location?.latitude, location?.longitude]);
+
+  if (loading || weatherLoading) {
+    return <Weather_loading />;
+  }
   return (
     <ScrollView className="px-3">
       {/* Search Input */}
@@ -17,7 +56,19 @@ const search = () => {
         />
       </View>
       {/* weather details */}
-      <Location_weather />
+      <Location_weather
+        city={placeName?.city || "Unknown Location"}
+        region={placeName?.region || "Unknown Region"}
+        weather_code={weatherData?.current?.weather_code}
+        temp={weatherData?.current?.apparent_temperature}
+        temp_unit={weatherData?.current_units?.apparent_temperature}
+        wind_Speed={weatherData?.current?.wind_speed_10m}
+        wind_speed_unit={weatherData?.current_units?.wind_speed_10m}
+        humidity={weatherData?.current?.relative_humidity_2m}
+        humidity_unit={weatherData?.current_units?.relative_humidity_2m}
+        precipitaion={weatherData?.current?.precipitation}
+        precipitaion_unit={weatherData?.current_units?.precipitation}
+      />
 
       {/* saved location */}
       <View className="flex flex-row items-center justify-between mt-3">
