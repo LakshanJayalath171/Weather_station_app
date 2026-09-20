@@ -97,6 +97,7 @@ const search = () => {
     return <Weather_loading />;
   }
 
+  console.log("Selected Location:", selectedLocation);
   return (
     <ScrollView className="px-3">
       {/* Search Input */}
@@ -135,7 +136,9 @@ const search = () => {
       {/* weather details */}
       <Location_weather
         city={selectedLocation?.name || placeName?.city || "Unknown Location"}
-        region={placeName?.region || "Unknown Region"}
+        region={
+          selectedLocation?.admin1 || placeName?.region || "Unknown Region"
+        }
         time="en-US"
         weather_code={weatherData?.current?.weather_code ?? 0}
         temp={weatherData?.current?.apparent_temperature ?? 0}

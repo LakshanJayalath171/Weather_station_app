@@ -58,9 +58,8 @@ const Location_weather = ({
                 </Text>
               </View>
             </View>
-            <Text className="text-lg text-white ">
-              {city}, {region}
-            </Text>
+            <Text className="text-xl text-white font-bold">{city}</Text>
+            <Text className="text-white/90 text-lg font-light">{region}</Text>
             <Text className="text-xs text-white/40">
               {new Date().toLocaleDateString(time)} •{" "}
               {weather(weather_code)?.name}
