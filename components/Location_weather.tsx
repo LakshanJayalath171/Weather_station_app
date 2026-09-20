@@ -21,7 +21,6 @@ interface LocationWeatherProps {
   precipitaion: number;
   humidity_unit: string;
   precipitaion_unit: string;
-  country_code: string;
 }
 
 const Location_weather = ({
@@ -37,7 +36,6 @@ const Location_weather = ({
   humidity_unit,
   precipitaion,
   precipitaion_unit,
-  country_code,
 }: LocationWeatherProps) => {
   const weather = (weather_code: number) => {
     return weatherStates.find((state) => state.codes.includes(weather_code));
@@ -61,9 +59,7 @@ const Location_weather = ({
               </View>
             </View>
             <Text className="text-xl text-white font-bold">{city}</Text>
-            <Text className="text-white/90 text-lg font-light">
-              {region} • {country_code}
-            </Text>
+            <Text className="text-white/90 text-lg font-light">{region}</Text>
             <Text className="text-xs text-white/40">
               {new Date().toLocaleDateString(time)} •{" "}
               {weather(weather_code)?.name}
