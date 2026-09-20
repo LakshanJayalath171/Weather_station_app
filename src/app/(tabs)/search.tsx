@@ -97,7 +97,6 @@ const search = () => {
     return <Weather_loading />;
   }
 
-  console.log("Selected Location:", selectedLocation);
   return (
     <ScrollView className="px-3">
       {/* Search Input */}
