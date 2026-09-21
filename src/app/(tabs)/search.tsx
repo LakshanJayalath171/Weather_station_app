@@ -166,7 +166,7 @@ const search = () => {
       <View>
         <LocationCard
           icon="sunny"
-          location="New York"
+          location="Kandy"
           temperature={28}
           low={20}
           high={30}
@@ -175,7 +175,7 @@ const search = () => {
 
         <LocationCard
           icon="cloudy"
-          location="Los Angeles"
+          location="Hambanthota"
           temperature={25}
           low={18}
           high={32}
@@ -184,7 +184,7 @@ const search = () => {
 
         <LocationCard
           icon="rainy"
-          location="Chicago"
+          location="Galle"
           temperature={22}
           low={15}
           high={28}
